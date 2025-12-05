@@ -6,12 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "inspect": "node scripts/inspect.mjs",
+    "setup": "node scripts/setup.mjs"
   },
   "dependencies": {
     "next": "16.0.7",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "swr": "^2.3.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
