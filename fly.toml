@@ -6,6 +6,10 @@
 app = 'gisele-2025'
 primary_region = 'iad'
 
+[env]
+  HOST = '0.0.0.0'
+  PORT = '3000'
+
 [build]
 
 [http_service]

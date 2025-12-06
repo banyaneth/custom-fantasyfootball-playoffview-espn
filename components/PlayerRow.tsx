@@ -16,17 +16,17 @@ function statusDot(status?: NormalizedPlayer["status"]) {
 export function PlayerRow({ player }: { player: NormalizedPlayer }) {
   return (
     <div className="flex items-center justify-between border-b border-slate-100 px-2 py-1.5 text-sm text-slate-900">
-      <div className="flex items-center gap-3 overflow-hidden">
-        <span className="w-14 text-xs font-bold uppercase tracking-wide text-slate-700">
+      <div className="flex items-center gap-2 overflow-hidden">
+        <span className="w-14 rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-slate-700">
           {player.lineupSlot}
         </span>
-        <div className="flex items-center gap-3 overflow-hidden">
+        <div className="flex items-center gap-2 overflow-hidden">
           <span
             className={`h-2 w-2 rounded-full ${statusDot(player.status)}`}
             aria-hidden
           />
           <div className="truncate">
-            <div className="truncate font-semibold text-slate-900">
+            <div className="truncate text-[13px] font-semibold text-slate-900 sm:text-sm">
               {player.name}
             </div>
             <div className="truncate text-[11px] font-semibold uppercase tracking-wide text-slate-500">
@@ -35,11 +35,11 @@ export function PlayerRow({ player }: { player: NormalizedPlayer }) {
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-6 text-right">
-        <div className="w-14 text-base font-black tabular-nums text-slate-900">
+      <div className="flex items-center gap-3 text-right">
+        <div className="w-12 text-[13px] font-black tabular-nums text-slate-900 sm:w-14 sm:text-sm">
           {player.points.toFixed(2)}
         </div>
-        <div className="w-14 text-xs font-semibold tabular-nums text-slate-500">
+        <div className="w-12 text-[10px] font-semibold tabular-nums text-slate-500 sm:w-14 sm:text-xs">
           {player.projected.toFixed(2)}
         </div>
       </div>

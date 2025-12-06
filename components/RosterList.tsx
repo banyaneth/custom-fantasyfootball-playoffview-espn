@@ -96,8 +96,8 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="px-4 py-3">
-      <div className="mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-slate-700">
+    <div className="px-3 py-2 sm:px-4 sm:py-3">
+      <div className="mb-1.5 flex items-center justify-between text-[11px] font-semibold uppercase tracking-wide text-slate-700 sm:text-xs">
         <span>{title}</span>
         <span className="text-slate-400">{count}</span>
       </div>

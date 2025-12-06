@@ -17,21 +17,23 @@ export function TeamPanel({
   label,
 }: Props) {
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-slate-300 bg-white p-4 shadow-md">
+    <div className="flex w-full flex-col gap-3 rounded-xl border border-slate-300 bg-white p-3 sm:p-4 shadow-md">
       <div className="flex items-start justify-between">
         <div>
           {label && (
-            <div className="text-xs font-semibold uppercase text-emerald-700">
+            <div className="text-[11px] font-semibold uppercase tracking-wide text-emerald-700">
               {label}
             </div>
           )}
-          <div className="text-lg font-bold text-slate-900">{team.name}</div>
+          <div className="text-base leading-tight text-slate-900 sm:text-lg sm:font-semibold">
+            {team.name}
+          </div>
           {team.ownerName && (
             <div className="text-xs text-slate-500">{team.ownerName}</div>
           )}
         </div>
         <div className="text-right">
-          <div className="text-3xl font-black text-slate-900">
+          <div className="text-2xl font-black leading-none text-slate-900 sm:text-3xl">
             {team.score.toFixed(2)}
           </div>
           {projected !== undefined ? (
