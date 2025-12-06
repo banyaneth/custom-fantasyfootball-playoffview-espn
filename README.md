@@ -1,4 +1,4 @@
-# Gisele 2025 Live Bracket
+
 
 Custom ESPN Fantasy Football playoff viewer for private leagues when your house rules differ from ESPN’s bracket or multi-week totals. Shows week-only live scoring, custom seeds, and round totals you define (e.g., semis 14–15, finals 16–17) without relying on ESPN’s playoff UI.
 
