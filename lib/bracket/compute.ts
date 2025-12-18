@@ -7,6 +7,8 @@ export type MatchupResult = {
   loser: number | null;
 };
 
+type SeriesTotals = Record<number, { total: number }>;
+
 function pickWinner(
   week: NormalizedWeek,
   a: number | null,
@@ -55,5 +57,51 @@ function seedOf(config: BracketConfig, teamId: number): number {
     ([, id]) => Number(id) === Number(teamId),
   );
   return entry ? Number(entry[0]) : 99;
+}
+
+export function computeSemisFromSeries(
+  config: BracketConfig,
+  semiTotals: SeriesTotals,
+): {
+  semi1: MatchupResult;
+  semi2: MatchupResult;
+  winners: (number | null)[];
+  losers: (number | null)[];
+} {
+  const semi1 = pickWinnerFromTotals(
+    config,
+    config.seeds["1"],
+    config.seeds["4"],
+    semiTotals,
+  );
+  const semi2 = pickWinnerFromTotals(
+    config,
+    config.seeds["2"],
+    config.seeds["3"],
+    semiTotals,
+  );
+
+  const winners = [semi1.winner, semi2.winner];
+  const losers = [semi1.loser, semi2.loser];
+
+  return { semi1, semi2, winners, losers };
+}
+
+function pickWinnerFromTotals(
+  config: BracketConfig,
+  a: number | null,
+  b: number | null,
+  totals: SeriesTotals,
+): MatchupResult {
+  if (!a || !b) {
+    return { teamA: a, teamB: b, winner: a ?? b ?? null, loser: null };
+  }
+  const scoreA = totals[a]?.total ?? 0;
+  const scoreB = totals[b]?.total ?? 0;
+
+  if (scoreA > scoreB) return { teamA: a, teamB: b, winner: a, loser: b };
+  if (scoreB > scoreA) return { teamA: a, teamB: b, winner: b, loser: a };
+  // tie-breaker: lower seed number wins (seed 1 beats seed 4)
+  return { teamA: a, teamB: b, winner: a, loser: b };
 }
 
