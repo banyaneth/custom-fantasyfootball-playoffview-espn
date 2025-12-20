@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 
+/* eslint-disable @next/next/no-img-element */
 type Props = {
   name: string;
   logoUrl?: string;

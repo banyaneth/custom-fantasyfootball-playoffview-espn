@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import { MatchupCard } from "@/components/MatchupCard";
-import { computeBracket, computeSemisFromSeries } from "@/lib/bracket/compute";
+import { computeSemisFromSeries } from "@/lib/bracket/compute";
 import { BracketConfig, NormalizedWeek } from "@/lib/types";
 
 type SeriesTotals = Record<number, { total: number }>;
@@ -46,11 +46,6 @@ export function Bracket({
   const semiResults = useMemo(
     () => computeSemisFromSeries(config, semiTotals),
     [config, semiTotals],
-  );
-
-  const bracket = useMemo(
-    () => (liveWeek ? computeBracket(config, liveWeek) : null),
-    [config, liveWeek],
   );
 
   const finalistIds = useMemo(() => {
