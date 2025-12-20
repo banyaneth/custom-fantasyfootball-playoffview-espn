@@ -1,6 +1,8 @@
 import { NormalizedWeek } from "@/lib/types";
+import { teamLogoUrl } from "@/lib/teamLogos";
 
 import { TeamPanel } from "./TeamPanel";
+import { TeamAvatar } from "./TeamAvatar";
 
 type Props = {
   title: string;
@@ -62,9 +64,23 @@ export function MatchupCard({
               {seriesBText}
             </div>
           </div>
-          <div className="mt-2 flex items-center justify-between gap-3 text-xs font-semibold text-white/90">
-            <div className="max-w-[45%] truncate">{teamA.name}</div>
-            <div className="max-w-[45%] truncate text-right">{teamB.name}</div>
+          <div className="mt-2 flex items-end justify-between gap-3 text-xs font-semibold text-white/90">
+            <div className="flex min-w-0 max-w-[45%] flex-col items-start gap-1">
+              <TeamAvatar
+                name={teamA.name}
+                logoUrl={teamLogoUrl(teamA)}
+                className="h-6 w-6 sm:h-7 sm:w-7"
+              />
+              <div className="w-full truncate">{teamA.name}</div>
+            </div>
+            <div className="flex min-w-0 max-w-[45%] flex-col items-end gap-1 text-right">
+              <TeamAvatar
+                name={teamB.name}
+                logoUrl={teamLogoUrl(teamB)}
+                className="h-6 w-6 sm:h-7 sm:w-7"
+              />
+              <div className="w-full truncate">{teamB.name}</div>
+            </div>
           </div>
         </div>
       </div>

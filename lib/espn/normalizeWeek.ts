@@ -73,17 +73,40 @@ function ensureTeam(
   teamId: number,
   name?: string,
   ownerName?: string,
+  logoUrl?: string,
 ) {
   if (!teams[teamId]) {
     teams[teamId] = {
       teamId,
       name: name ?? `Team ${teamId}`,
       ownerName,
+      logoUrl,
       score: 0,
       players: { starters: [], bench: [], ir: [] },
     };
   }
+  // Allow later calls to fill missing metadata.
+  if (name && teams[teamId].name.startsWith("Team ")) teams[teamId].name = name;
+  if (ownerName && !teams[teamId].ownerName) teams[teamId].ownerName = ownerName;
+  if (logoUrl && !teams[teamId].logoUrl) teams[teamId].logoUrl = logoUrl;
   return teams[teamId];
+}
+
+function extractTeamLogoUrl(team: any): string | undefined {
+  if (!team) return undefined;
+  if (typeof team.logo === "string" && team.logo.length > 0) return team.logo;
+  const logos = team.logos;
+  if (Array.isArray(logos) && logos.length > 0) {
+    const href =
+      logos.find((l: any) => typeof l?.href === "string" && l.href.length > 0)
+        ?.href ??
+      logos.find((l: any) => typeof l?.url === "string" && l.url.length > 0)
+        ?.url ??
+      (typeof logos[0]?.href === "string" ? logos[0].href : undefined) ??
+      (typeof logos[0]?.url === "string" ? logos[0].url : undefined);
+    if (typeof href === "string" && href.length > 0) return href;
+  }
+  return undefined;
 }
 
 function statValue(entry: any, week: number, sourceId: number): number | undefined {
@@ -302,13 +325,17 @@ function computeProjectionFromRoster(roster: NormalizedRoster): number {
 }
 
 export function normalizeWeek(raw: any, week: number): NormalizedWeek {
-  const teamsInfo: Record<number, { name?: string; ownerName?: string }> = {};
+  const teamsInfo: Record<
+    number,
+    { name?: string; ownerName?: string; logoUrl?: string }
+  > = {};
   (raw?.teams ?? []).forEach((t: any) => {
     teamsInfo[t.id] = {
       name: `${t.location ?? ""}${t.nickname ?? ""}`.trim() ||
         t.name ||
         `Team ${t.id}`,
       ownerName: Array.isArray(t.owners) ? t.owners[0] : t.owners,
+      logoUrl: extractTeamLogoUrl(t),
     };
   });
   const slotOverrides = buildSlotOverrideMap(raw?.teams ?? []);
@@ -327,7 +354,7 @@ export function normalizeWeek(raw: any, week: number): NormalizedWeek {
   // Ensure all teams exist first
   for (const [teamIdStr, info] of Object.entries(teamsInfo)) {
     const teamId = Number(teamIdStr);
-    ensureTeam(result.teams, teamId, info.name, info.ownerName);
+    ensureTeam(result.teams, teamId, info.name, info.ownerName, info.logoUrl);
   }
 
   // Populate players from authoritative team rosters (no duplication)

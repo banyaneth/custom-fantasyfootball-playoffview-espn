@@ -23,6 +23,7 @@ export interface NormalizedTeamWeek {
   teamId: number;
   name: string;
   ownerName?: string;
+  logoUrl?: string;
   score: number;
   projected?: number;
   players: NormalizedRoster;
